@@ -18,4 +18,3 @@ print(a2.size)
 print(a2.dtype)
 # ndarray对象中每个元素的大小，以字节为单位
 print(a2.itemsize)
-
