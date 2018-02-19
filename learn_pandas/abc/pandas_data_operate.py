@@ -14,6 +14,8 @@ newc = d.columns.insert(4, '新增')
 d = d.reindex(columns=newc, fill_value=200)
 print(d)
 
+print('---------------------')
+
 # 索引的常用方法
 d = pd.DataFrame({'one': {'a': 1, 'b': 2, 'c': 3},
                   'two': {'a': 4, 'b': 5, 'c': 6}})
@@ -27,6 +29,25 @@ nc = d.columns.delete(0)
 ni = d.index.insert(4, 'd')
 nd = d.reindex(index=ni, columns=nc, method='ffill')
 print(nd)
+
+print('+++++++++++++++++++++++++++++++')
+
+# reindex的fill-method的使用
+# acd里c有gap所以要fill，ffill向前找到b填充，bfill向后找到d填充
+# aed里e有gap所以ffill向前找到d填充，向后找不到所以填充了也是NaN
+# reindex在指定method的时候必须要要求index是单向递增或者递减序列，否则就会报错：reindex如果index设置成(‘a’, 1, ‘d’)就直接报错了
+
+dd = {'one': {'a': 1, 'b': 2, 'd': 3},
+      'two': {'a': 4, 'b': 5, 'd': 6},
+      'thr': {'a': 7, 'b': 8, 'd': 9}}
+df = pd.DataFrame(dd)
+print(df)
+print(df.reindex(('a', 'b', 'd'), method='ffill'))
+print(df.reindex(('a', 'c', 'd'), method='ffill'))
+print(df.reindex(('a', 'c', 'd'), method='bfill'))
+print(df.reindex(('a', 'e', 'd'), method='ffill'))
+print(df.reindex(('a', 'e', 'd'), method='bfill'))
+
 # .drop()能够删除Series和DataFrame指定行或列索引
 print('-----------------------')
 d = pd.DataFrame({'one': {'a': 1, 'b': 2, 'c': 3},
